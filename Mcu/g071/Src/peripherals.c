@@ -22,10 +22,10 @@ void initCorePeripherals(void)
 {
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-  #ifndef NO_PA11_PA12_REMAP
+#ifndef NO_PA11_PA12_REMAP
     LL_SYSCFG_EnablePinRemap(LL_SYSCFG_PIN_RMP_PA11);
     LL_SYSCFG_EnablePinRemap(LL_SYSCFG_PIN_RMP_PA12);
-  #endif
+#endif
     FLASH->ACR |= FLASH_ACR_PRFTEN; //// prefetch buffer enable
     SystemClock_Config();
     MX_GPIO_Init();
@@ -476,7 +476,7 @@ void MX_TIM3_Init(void)
     LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
 
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
-		LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
+    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     /**TIM3 GPIO Configuration
     PB4   ------> TIM3_CH1
     */
@@ -794,7 +794,7 @@ void enableCorePeripherals()
     NVIC_SetPriority(EXTI4_15_IRQn, 2);
     NVIC_EnableIRQ(EXTI4_15_IRQn);
     EXTI->IMR1 |= (1 << 15);
-		#ifdef USE_PULSE_OUT
-		 LL_GPIO_SetPinMode(RPM_PULSE_PORT, RPM_PULSE_PIN, LL_GPIO_MODE_OUTPUT);
-		#endif
+#ifdef USE_PULSE_OUT
+    LL_GPIO_SetPinMode(RPM_PULSE_PORT, RPM_PULSE_PIN, LL_GPIO_MODE_OUTPUT);
+#endif
 }
