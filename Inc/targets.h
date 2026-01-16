@@ -2892,6 +2892,18 @@
 #define SIXTY_FOUR_KB_MEMORY
 #endif
 
+// Based on ST_G0_05_G071
+#ifdef ST_LABSIMPLE_G071
+#define FILE_NAME "ST_LABSIMPLE_G071"
+#define FIRMWARE_NAME "ST_LABSIMPLE"
+#define DEAD_TIME 45
+#define MILLIVOLT_PER_AMP 10
+#define CURRENT_OFFSET 0
+#define HARDWARE_GROUP_G0_M
+#define USE_SERIAL_TELEMETRY
+#define SIXTY_FOUR_KB_MEMORY
+#endif
+
 /********************************** F031 Targets
  * ***********************************/
 
