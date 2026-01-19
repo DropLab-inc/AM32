@@ -8,8 +8,8 @@
 #ifndef INC_PHASEOUTS_H_
 #define INC_PHASEOUTS_H_
 
-#include "main.h"
 #include "common.h"
+#include "main.h"
 
 void allOff();
 void comStep(int newStep);

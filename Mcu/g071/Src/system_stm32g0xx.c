@@ -79,19 +79,19 @@
 
 #if !defined(HSE_VALUE)
 #define HSE_VALUE (8000000UL) /*!< Value of the External oscillator in Hz */
-#endif /* HSE_VALUE */
+#endif                        /* HSE_VALUE */
 
 #if !defined(HSI_VALUE)
 #define HSI_VALUE (16000000UL) /*!< Value of the Internal oscillator in Hz*/
-#endif /* HSI_VALUE */
+#endif                         /* HSI_VALUE */
 
 #if !defined(LSI_VALUE)
 #define LSI_VALUE (32000UL) /*!< Value of LSI in Hz*/
-#endif /* LSI_VALUE */
+#endif                      /* LSI_VALUE */
 
 #if !defined(LSE_VALUE)
 #define LSE_VALUE (32768UL) /*!< Value of LSE in Hz*/
-#endif /* LSE_VALUE */
+#endif                      /* LSE_VALUE */
 
 /**
  * @}
@@ -114,8 +114,8 @@
 /*!< Uncomment the following line if you need to relocate your vector Table in
      Internal SRAM. */
 /* #define VECT_TAB_SRAM */
-#define VECT_TAB_OFFSET                       \
-    0x0U /*!< Vector Table base offset field. \
+#define VECT_TAB_OFFSET                                                        \
+    0x0U /*!< Vector Table base offset field.                                  \
               This value must be a multiple of 0x100. */
 /******************************************************************************/
 /**
@@ -141,11 +141,11 @@
    there is no need to call the 2 first functions listed above, since
    SystemCoreClock variable is updated automatically.
 */
-uint32_t SystemCoreClock = 16000000UL;
+uint32_t       SystemCoreClock     = 16000000UL;
 
-const uint32_t AHBPrescTable[16UL] = { 0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 0UL,
-    1UL, 2UL, 3UL, 4UL, 6UL, 7UL, 8UL, 9UL };
-const uint32_t APBPrescTable[8UL] = { 0UL, 0UL, 0UL, 0UL, 1UL, 2UL, 3UL, 4UL };
+const uint32_t AHBPrescTable[16UL] = {0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 0UL, 0UL,
+                                      1UL, 2UL, 3UL, 4UL, 6UL, 7UL, 8UL, 9UL};
+const uint32_t APBPrescTable[8UL]  = {0UL, 0UL, 0UL, 0UL, 1UL, 2UL, 3UL, 4UL};
 
 /**
  * @}
@@ -173,9 +173,11 @@ void SystemInit(void)
     /* Configure the Vector Table location add offset address
      * ------------------*/
 #ifdef VECT_TAB_SRAM
-    SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
+    SCB->VTOR = SRAM_BASE |
+                VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
 #else
-    SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+    SCB->VTOR = FLASH_BASE |
+                VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
 #endif
 }
 
@@ -234,7 +236,8 @@ void SystemCoreClockUpdate(void)
 
     /* Get SYSCLK source
      * -------------------------------------------------------*/
-    switch (RCC->CFGR & RCC_CFGR_SWS) {
+    switch (RCC->CFGR & RCC_CFGR_SWS)
+    {
     case RCC_CFGR_SWS_HSE: /* HSE used as system clock */
         SystemCoreClock = HSE_VALUE;
         break;
@@ -252,24 +255,29 @@ void SystemCoreClockUpdate(void)
            SYSCLK = PLL_VCO / PLLR
            */
         pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC);
-        pllm = ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM) >> RCC_PLLCFGR_PLLM_Pos) + 1UL;
+        pllm =
+            ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM) >> RCC_PLLCFGR_PLLM_Pos) + 1UL;
 
         if (pllsource == 0x03UL) /* HSE used as PLL clock source */
         {
             pllvco = (HSE_VALUE / pllm);
-        } else /* HSI used as PLL clock source */
+        }
+        else /* HSI used as PLL clock source */
         {
             pllvco = (HSI_VALUE / pllm);
         }
-        pllvco = pllvco * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> RCC_PLLCFGR_PLLN_Pos);
-        pllr = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> RCC_PLLCFGR_PLLR_Pos) + 1UL);
+        pllvco = pllvco *
+                 ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> RCC_PLLCFGR_PLLN_Pos);
+        pllr =
+            (((RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> RCC_PLLCFGR_PLLR_Pos) + 1UL);
 
         SystemCoreClock = pllvco / pllr;
         break;
 
     case RCC_CFGR_SWS_HSI: /* HSI used as system clock */
-    default: /* HSI used as system clock */
-        hsidiv = (1UL << ((READ_BIT(RCC->CR, RCC_CR_HSIDIV)) >> RCC_CR_HSIDIV_Pos));
+    default:               /* HSI used as system clock */
+        hsidiv =
+            (1UL << ((READ_BIT(RCC->CR, RCC_CR_HSIDIV)) >> RCC_CR_HSIDIV_Pos));
         SystemCoreClock = (HSI_VALUE / hsidiv);
         break;
     }

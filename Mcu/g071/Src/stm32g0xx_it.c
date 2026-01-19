@@ -28,9 +28,9 @@
 #include "ADC.h"
 #include "IO.h"
 #include "WS2812.h"
-#include "targets.h"
-#include "comparator.h"
 #include "common.h"
+#include "comparator.h"
+#include "targets.h"
 
 /* USER CODE END Includes */
 
@@ -74,18 +74,18 @@
  * --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-extern void transfercomplete();
-extern void PeriodElapsedCallback();
-extern void interruptRoutine();
-extern void tenKhzRoutine();
-extern void processDshot();
+extern void    transfercomplete();
+extern void    PeriodElapsedCallback();
+extern void    interruptRoutine();
+extern void    tenKhzRoutine();
+extern void    processDshot();
 
-extern char send_telemetry;
-uint16_t interrupt_time = 0;
-extern char servoPwm;
-extern char dshot_telemetry;
-extern char armed;
-extern char out_put;
+extern char    send_telemetry;
+uint16_t       interrupt_time = 0;
+extern char    servoPwm;
+extern char    dshot_telemetry;
+extern char    armed;
+extern char    out_put;
 extern uint8_t compute_dshot_flag;
 
 /* USER CODE END EV */
@@ -114,7 +114,8 @@ void HardFault_Handler(void)
     /* USER CODE BEGIN HardFault_IRQn 0 */
 
     /* USER CODE END HardFault_IRQn 0 */
-    while (1) {
+    while (1)
+    {
         /* USER CODE BEGIN W1_HardFault_IRQn 0 */
         /* USER CODE END W1_HardFault_IRQn 0 */
     }
@@ -172,13 +173,17 @@ void SysTick_Handler(void)
  */
 void DMA1_Channel1_IRQHandler(void)
 {
-    if (armed && dshot_telemetry) {
+    if (armed && dshot_telemetry)
+    {
         DMA1->IFCR |= DMA_IFCR_CGIF1;
         DMA1_Channel1->CCR = 0x00;
-        if (out_put) {
+        if (out_put)
+        {
             receiveDshotDma();
             compute_dshot_flag = 2;
-        } else {
+        }
+        else
+        {
             sendDshotDma();
             compute_dshot_flag = 1;
         }
@@ -187,19 +192,24 @@ void DMA1_Channel1_IRQHandler(void)
         return;
     }
     /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
-    if (LL_DMA_IsActiveFlag_HT1(DMA1)) {
-        if (servoPwm) {
+    if (LL_DMA_IsActiveFlag_HT1(DMA1))
+    {
+        if (servoPwm)
+        {
             LL_TIM_IC_SetPolarity(IC_TIMER_REGISTER, IC_TIMER_CHANNEL,
-                LL_TIM_IC_POLARITY_FALLING);
+                                  LL_TIM_IC_POLARITY_FALLING);
             LL_DMA_ClearFlag_HT1(DMA1);
         }
     }
-    if (LL_DMA_IsActiveFlag_TC1(DMA1) == 1) {
+    if (LL_DMA_IsActiveFlag_TC1(DMA1) == 1)
+    {
         DMA1->IFCR |= DMA_IFCR_CGIF1;
         DMA1_Channel1->CCR = 0x00;
         transfercomplete();
         EXTI->SWIER1 |= LL_EXTI_LINE_15;
-    } else if (LL_DMA_IsActiveFlag_TE1(DMA1) == 1) {
+    }
+    else if (LL_DMA_IsActiveFlag_TE1(DMA1) == 1)
+    {
         LL_DMA_ClearFlag_GI1(DMA1);
     }
 }
@@ -209,20 +219,25 @@ void DMA1_Channel1_IRQHandler(void)
  */
 void DMA1_Channel2_3_IRQHandler(void)
 {
-    if (LL_DMA_IsActiveFlag_TC2(DMA1) == 1) {
+    if (LL_DMA_IsActiveFlag_TC2(DMA1) == 1)
+    {
         LL_DMA_ClearFlag_GI2(DMA1);
         ADC_DMA_Callback();
     }
-    if (LL_DMA_IsActiveFlag_TE2(DMA1) == 1) {
+    if (LL_DMA_IsActiveFlag_TE2(DMA1) == 1)
+    {
         LL_DMA_ClearFlag_TE2(DMA1);
     }
 
-    if (LL_DMA_IsActiveFlag_TC3(DMA1)) {
+    if (LL_DMA_IsActiveFlag_TC3(DMA1))
+    {
         send_telemetry = 0;
         LL_DMA_ClearFlag_GI3(DMA1);
         LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_3);
         /* Call function Transmission complete Callback */
-    } else if (LL_DMA_IsActiveFlag_TE3(DMA1)) {
+    }
+    else if (LL_DMA_IsActiveFlag_TE3(DMA1))
+    {
         LL_DMA_ClearFlag_GI3(DMA1);
         LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_3);
         /* Call Error function */
@@ -236,56 +251,76 @@ void DMA1_Channel2_3_IRQHandler(void)
  */
 void ADC1_COMP_IRQHandler(void)
 {
-  if (LL_EXTI_IsActiveFallingFlag_0_31(LL_EXTI_LINE_18)) {
-    if((INTERVAL_TIMER->CNT) > (average_interval >> 1)){
-      LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_18);
-      interruptRoutine();
-    }else{
-      if(getCompOutputLevel() == rising){
-          LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_18);
-          return;
-      }
+    if (LL_EXTI_IsActiveFallingFlag_0_31(LL_EXTI_LINE_18))
+    {
+        if ((INTERVAL_TIMER->CNT) > (average_interval >> 1))
+        {
+            LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_18);
+            interruptRoutine();
+        }
+        else
+        {
+            if (getCompOutputLevel() == rising)
+            {
+                LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_18);
+                return;
+            }
+        }
+        return;
     }
-    return;
-  }
 
-  if (LL_EXTI_IsActiveRisingFlag_0_31(LL_EXTI_LINE_18)) {
-    if((INTERVAL_TIMER->CNT) > (average_interval >> 1)){
-      LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_18);
-      interruptRoutine();
-    }else{
-      if(getCompOutputLevel() == rising){
-          LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_18);
-          return;
-      }
+    if (LL_EXTI_IsActiveRisingFlag_0_31(LL_EXTI_LINE_18))
+    {
+        if ((INTERVAL_TIMER->CNT) > (average_interval >> 1))
+        {
+            LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_18);
+            interruptRoutine();
+        }
+        else
+        {
+            if (getCompOutputLevel() == rising)
+            {
+                LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_18);
+                return;
+            }
+        }
+        return;
     }
-    return;
-  }
-  if (LL_EXTI_IsActiveFallingFlag_0_31(LL_EXTI_LINE_17)) {
-    if((INTERVAL_TIMER->CNT) > (average_interval >> 1)){
-      LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_17);
-      interruptRoutine();
-    }else{
-      if(getCompOutputLevel() == rising){
-          LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_17);
-          return;
-      }
+    if (LL_EXTI_IsActiveFallingFlag_0_31(LL_EXTI_LINE_17))
+    {
+        if ((INTERVAL_TIMER->CNT) > (average_interval >> 1))
+        {
+            LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_17);
+            interruptRoutine();
+        }
+        else
+        {
+            if (getCompOutputLevel() == rising)
+            {
+                LL_EXTI_ClearFallingFlag_0_31(LL_EXTI_LINE_17);
+                return;
+            }
+        }
+        return;
     }
-    return;
-  }
 
-  if (LL_EXTI_IsActiveRisingFlag_0_31(LL_EXTI_LINE_17)) {
-    if((INTERVAL_TIMER->CNT) > (average_interval >> 1)){
-      LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_17);
-      interruptRoutine();
-    }else{
-      if(getCompOutputLevel() == rising){
-          LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_17);
-          return;
-      }
+    if (LL_EXTI_IsActiveRisingFlag_0_31(LL_EXTI_LINE_17))
+    {
+        if ((INTERVAL_TIMER->CNT) > (average_interval >> 1))
+        {
+            LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_17);
+            interruptRoutine();
+        }
+        else
+        {
+            if (getCompOutputLevel() == rising)
+            {
+                LL_EXTI_ClearRisingFlag_0_31(LL_EXTI_LINE_17);
+                return;
+            }
+        }
+        return;
     }
-    return;
-  }
 }
 
 /**
@@ -294,11 +329,13 @@ void ADC1_COMP_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
     /* USER CODE BEGIN TIM3_IRQn 0 */
-    if (LL_TIM_IsActiveFlag_CC1(TIM3) == 1) {
+    if (LL_TIM_IsActiveFlag_CC1(TIM3) == 1)
+    {
         LL_TIM_ClearFlag_CC1(TIM3);
     }
 
-    if (LL_TIM_IsActiveFlag_UPDATE(TIM3) == 1) {
+    if (LL_TIM_IsActiveFlag_UPDATE(TIM3) == 1)
+    {
         LL_TIM_ClearFlag_UPDATE(TIM3);
         // update_interupt++;
     }
@@ -311,11 +348,13 @@ void TIM3_IRQHandler(void)
 void TIM16_IRQHandler(void)
 {
     /* USER CODE BEGIN TIM3_IRQn 0 */
-    if (LL_TIM_IsActiveFlag_CC1(TIM16) == 1) {
+    if (LL_TIM_IsActiveFlag_CC1(TIM16) == 1)
+    {
         LL_TIM_ClearFlag_CC1(TIM16);
     }
 
-    if (LL_TIM_IsActiveFlag_UPDATE(TIM16) == 1) {
+    if (LL_TIM_IsActiveFlag_UPDATE(TIM16) == 1)
+    {
         LL_TIM_ClearFlag_UPDATE(TIM16);
         // update_interupt++;
     }
@@ -328,7 +367,8 @@ void TIM16_IRQHandler(void)
 void TIM6_DAC_LPTIM1_IRQHandler(void)
 {
     /* USER CODE BEGIN TIM6_DAC_LPTIM1_IRQn 0 */
-    if (LL_TIM_IsActiveFlag_UPDATE(TIM6) == 1) {
+    if (LL_TIM_IsActiveFlag_UPDATE(TIM6) == 1)
+    {
         LL_TIM_ClearFlag_UPDATE(TIM6);
         tenKhzRoutine();
     }
@@ -354,16 +394,20 @@ void TIM14_IRQHandler(void)
 void DMA1_Ch4_7_DMAMUX1_OVR_IRQHandler(void)
 {
     /* USER CODE BEGIN DMA1_Ch4_7_DMAMUX1_OVR_IRQn 0 */
-    if (LL_DMA_IsActiveFlag_HT6(DMA1)) {
+    if (LL_DMA_IsActiveFlag_HT6(DMA1))
+    {
     }
-    if (LL_DMA_IsActiveFlag_TC6(DMA1) == 1) {
+    if (LL_DMA_IsActiveFlag_TC6(DMA1) == 1)
+    {
         LL_DMA_ClearFlag_GI6(DMA1);
 
         LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_6);
         LL_TIM_DisableAllOutputs(TIM16);
         LL_TIM_DisableCounter(TIM16);
         dma_busy = 0;
-    } else if (LL_DMA_IsActiveFlag_TE6(DMA1) == 1) {
+    }
+    else if (LL_DMA_IsActiveFlag_TE6(DMA1) == 1)
+    {
         LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_6);
         LL_TIM_DisableAllOutputs(TIM16);
         LL_TIM_DisableCounter(TIM16);
