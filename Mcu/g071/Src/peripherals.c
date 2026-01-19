@@ -100,23 +100,23 @@ void SystemClock_Config(void)
     /* Update CMSIS variable (which can be updated also through
      * SystemCoreClockUpdate function) */
     LL_SetSystemCoreClock(64000000);
+
     LL_RCC_SetTIMClockSource(LL_RCC_TIM1_CLKSOURCE_PCLK1);
     LL_RCC_SetADCClockSource(LL_RCC_ADC_CLKSOURCE_SYSCLK);
 }
 
 void MX_COMP1_Init(void)
 {
-    /* USER CODE BEGIN COMP2_Init 0 */
+    /* USER CODE BEGIN COMP1_Init 0 */
 
-    /* USER CODE END COMP2_Init 0 */
+    /* USER CODE END COMP1_Init 0 */
 
     LL_COMP_InitTypeDef COMP_InitStruct = {0};
 
     LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
 
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
-    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
-    /**COMP2 GPIO Configuration
+    /**COMP1 GPIO Configuration
     PA0   ------> COMP1_INM
     PA1   ------> COMP1_INP
     */
@@ -130,9 +130,9 @@ void MX_COMP1_Init(void)
     GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
     LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    /* USER CODE BEGIN COMP2_Init 1 */
+    /* USER CODE BEGIN COMP1_Init 1 */
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
-    /* USER CODE END COMP2_Init 1 */
+    /* USER CODE END COMP1_Init 1 */
     COMP_InitStruct.InputPlus            = LL_COMP_INPUT_PLUS_IO3;
     COMP_InitStruct.InputMinus           = LL_COMP_INPUT_MINUS_IO3;
     COMP_InitStruct.InputHysteresis      = LL_COMP_HYSTERESIS_NONE;
@@ -157,11 +157,11 @@ void MX_COMP1_Init(void)
     }
     LL_EXTI_DisableEvent_0_31(LL_EXTI_LINE_17);
     LL_EXTI_DisableIT_0_31(LL_EXTI_LINE_17);
-    /* USER CODE BEGIN COMP2_Init 2 */
+    /* USER CODE BEGIN COMP1_Init 2 */
     NVIC_SetPriority(ADC1_COMP_IRQn, 0);
     NVIC_EnableIRQ(ADC1_COMP_IRQn);
     //__NVIC_EnableIRQ;
-    /* USER CODE END COMP2_Init 2 */
+    /* USER CODE END COMP1_Init 2 */
 }
 
 void MX_COMP2_Init(void)
@@ -177,8 +177,8 @@ void MX_COMP2_Init(void)
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
     /**COMP2 GPIO Configuration
-    PA2   ------> COMP2_INM
     PA3   ------> COMP2_INP
+    PA2   ------> COMP2_INM
     */
     GPIO_InitStruct.Pin  = LL_GPIO_PIN_2;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
