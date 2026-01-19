@@ -354,12 +354,12 @@ void MX_TIM1_Init(void)
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
     /**TIM1 GPIO Configuration
-    PA7   ------> TIM1_CH1N
-    PB0   ------> TIM1_CH2N
-    PB1   ------> TIM1_CH3N
-    PA8   ------> TIM1_CH1
-    PA9 [PA11]   ------> TIM1_CH2
     PA10 [PA12]   ------> TIM1_CH3
+    PA9 [PA11]   ------> TIM1_CH2
+    PA8   ------> TIM1_CH1
+    PA7   ------> TIM1_CH1N
+    PB1   ------> TIM1_CH3N
+    PB0   ------> TIM1_CH2N
     */
 #ifdef PWM_ENABLE_BRIDGE
 #define PHASE_C_GPIO_LOW       PHASE_C_GPIO_ENABLE
@@ -382,38 +382,14 @@ void MX_TIM1_Init(void)
 #define PWM_OUTPUT_TYPE LL_GPIO_OUTPUT_OPENDRAIN
 #endif
 
-    GPIO_InitStruct.Pin        = PHASE_C_GPIO_LOW;
-    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
-    LL_GPIO_Init(PHASE_C_GPIO_PORT_LOW, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin        = PHASE_B_GPIO_LOW;
-    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
-    LL_GPIO_Init(PHASE_B_GPIO_PORT_LOW, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin        = PHASE_A_GPIO_LOW;
-    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
-    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
-    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
-    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
-    LL_GPIO_Init(PHASE_A_GPIO_PORT_LOW, &GPIO_InitStruct);
-
     // high side gate / PWM outputs
-    GPIO_InitStruct.Pin        = PHASE_C_GPIO_HIGH;
+    GPIO_InitStruct.Pin        = PHASE_A_GPIO_HIGH;
     GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
     GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = PWM_OUTPUT_TYPE;
     GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
     GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
-    LL_GPIO_Init(PHASE_C_GPIO_PORT_HIGH, &GPIO_InitStruct);
+    LL_GPIO_Init(PHASE_A_GPIO_PORT_HIGH, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin        = PHASE_B_GPIO_HIGH;
     GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
@@ -423,13 +399,37 @@ void MX_TIM1_Init(void)
     GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
     LL_GPIO_Init(PHASE_B_GPIO_PORT_HIGH, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin        = PHASE_A_GPIO_HIGH;
+    GPIO_InitStruct.Pin        = PHASE_C_GPIO_HIGH;
     GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
     GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.OutputType = PWM_OUTPUT_TYPE;
     GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
     GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
-    LL_GPIO_Init(PHASE_A_GPIO_PORT_HIGH, &GPIO_InitStruct);
+    LL_GPIO_Init(PHASE_C_GPIO_PORT_HIGH, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin        = PHASE_C_GPIO_LOW;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
+    LL_GPIO_Init(PHASE_C_GPIO_PORT_LOW, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin        = PHASE_A_GPIO_LOW;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
+    LL_GPIO_Init(PHASE_A_GPIO_PORT_LOW, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin        = PHASE_B_GPIO_LOW;
+    GPIO_InitStruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+    GPIO_InitStruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
+    GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    GPIO_InitStruct.Pull       = LL_GPIO_PULL_NO;
+    GPIO_InitStruct.Alternate  = LL_GPIO_AF_2;
+    LL_GPIO_Init(PHASE_B_GPIO_PORT_LOW, &GPIO_InitStruct);
 }
 
 /**
