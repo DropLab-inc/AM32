@@ -354,12 +354,12 @@ void MX_TIM1_Init(void)
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
     /**TIM1 GPIO Configuration
-    PA10 [PA12]   ------> TIM1_CH3
-    PA9 [PA11]   ------> TIM1_CH2
-    PA8   ------> TIM1_CH1
-    PA7   ------> TIM1_CH1N
-    PB1   ------> TIM1_CH3N
-    PB0   ------> TIM1_CH2N
+    PA10 [PA12]     ------> TIM1_CH3
+    PA9 [PA11]     ------> TIM1_CH2
+    PA8     ------> TIM1_CH1
+    PA7     ------> TIM1_CH1N
+    PB1     ------> TIM1_CH3N
+    PB0     ------> TIM1_CH2N
     */
 #ifdef PWM_ENABLE_BRIDGE
 #define PHASE_C_GPIO_LOW       PHASE_C_GPIO_ENABLE
