@@ -125,14 +125,15 @@ void ADC_Init(void)
     LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     /**ADC1 GPIO Configuration
     PA4   ------> ADC1_IN4
-    PA6   ------> ADC1_IN6
+    PA5   ------> ADC1_IN5
     */
-    GPIO_InitStruct.Pin  = VOLTAGE_ADC_PIN;
+
+    GPIO_InitStruct.Pin  = CURRENT_ADC_PIN;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
     LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin  = CURRENT_ADC_PIN;
+    GPIO_InitStruct.Pin  = VOLTAGE_ADC_PIN;
     GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
     LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
