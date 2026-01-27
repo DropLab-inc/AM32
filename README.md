@@ -1,4 +1,5 @@
 # AM32-MultiRotor-ESC-firmware
+
 Firmware for ARM based speed controllers
 <p align="left">
   <a href="/LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-brightgreen" alt="GitHub license" /></a>
@@ -17,9 +18,11 @@ AM32 has the following features:
 - KISS standard ESC telemetry
 - Variable PWM frequency
 - Sinusoidal startup mode, which is designed to get larger motors up to speed
+
 ## Build instructions
+
 Download and install Keil community edition. Open the Keil project for the mcu you want in the "Keil projects" folder. Install any mcu packs if prompted. 
-Select the build target from the drop down box and build project 
+Select the build target from the drop down box and build project.
 
 ## Firmware Release & Configuration Tool
 
@@ -35,9 +38,8 @@ You can also use a desktop configurator which you can download from here:
 
 Alternately you can use the [Online-ESC Configurator](https://esc-configurator.com/) to flash or change settings with any web browser that supports web serial.
 
-
-
 ## Hardware
+
 AM32 currently has support for STSPIN32F0, STM32F051, STM32G071, GD32E230, AT32F415 and AT32F421.
 The CKS32F051 is not recommended due to too many random issues.
 Target compatibility List can be found [here](https://github.com/am32-firmware/AM32/blob/main/Inc/targets.h)
@@ -54,30 +56,31 @@ After the bootloader has been installed the main firmware from can be installed 
 To update an existing AM32 bootloader an update tool can be found [here](https://github.com/am32-firmware/AM32-unlocker).
 
 ## Support and Developers Channel
+
 There are two ways you can get support or participate in improving am32.
 We have a discord server here:
 
-https://discord.gg/h7ddYMmEVV
+<https://discord.gg/h7ddYMmEVV>
 
 Etiquette: Please wait around long enough for a reply - sometimes people are out flying, asleep or at work and can't answer immediately. 
 
 If you wish to support the project please join the Patreon.
 
-https://www.patreon.com/user?u=44228479
-
+<https://www.patreon.com/user?u=44228479>
 
 ## Sponsors
+
 The AM32 project would not have made this far without help from the following sponsors:
 
-Holmes Hobbies - https://holmeshobbies.com/ - The project would not be where it is today without the support of HH. Check out the Crawlmaster V2 for the best am32 experience!
+Holmes Hobbies - <https://holmeshobbies.com> - The project would not be where it is today without the support of HH. Check out the Crawlmaster V2 for the best am32 experience!
 
-Repeat Robotics - https://repeat-robotics.com/ - Bringing Am32 esc's to the fighting robot community!
+Repeat Robotics - <https://repeat-robotics.com> - Bringing Am32 esc's to the fighting robot community!
 
-Quaternium - https://www.quaternium.com/ - Firmware development support and hardware donations
+Quaternium - <https://www.quaternium.com> - Firmware development support and hardware donations
 
 Airbot - Many hardware donations
 
-NeutronRC - For hardware, am32 promotion and schematics 
+NeutronRC - For hardware, am32 promotion and schematics.
 
 Aikon - Hardware donations and schematics\
 Skystars  - For hardware and taking a chance on the first commercial am32 esc's\
@@ -85,8 +88,8 @@ Diatone - Hardware donations\
 T-motor - Motor and Hardware donations\
 HLGRC  - Hardaware donations
 
-
 ## Contributors
+
 A big thanks to all those who contributed time, advice and code to the AM32 project.\
 Un!t\
 Hugo Chiang (Dusking)\
@@ -100,4 +103,3 @@ Markus Gritsch\
 Voodoobrew
 
 (and many more)
-

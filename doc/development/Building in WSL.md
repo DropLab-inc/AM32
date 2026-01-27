@@ -23,19 +23,22 @@ chiang@DESKTOP-6LOVNKK:/mnt/c/Users/fugui$
 
 We need to install a few Linux packages.
 
-```
+```bash
 sudo apt-get update
 sudo apt install git
 sudo apt install gcc-arm-none-eabi
 ```
+
 ## Cloning AM32
 
 You can either use git command or GitHub Desktop to clone AM32.
-```
+
+```bash
 cd /mnt/f
 mkdir GitHub
 git clone https://github.com/AlkaMotors/AM32-MultiRotor-ESC-firmware.git AM32
 ```
+
 This will create a ``GitHub`` folder in your ``F:`` drive, and clone (=download) the AM32 repo into it.
 
 ## Building AM32
